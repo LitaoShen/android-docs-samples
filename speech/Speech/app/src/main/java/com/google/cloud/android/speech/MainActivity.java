@@ -27,7 +27,6 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -42,7 +41,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity implements MessageDialogFragment.Listener {
+public class MainActivity extends BaseActivity implements MessageDialogFragment.Listener {
 
     private static final String FRAGMENT_MESSAGE_DIALOG = "message_dialog";
 
@@ -194,7 +193,8 @@ public class MainActivity extends AppCompatActivity implements MessageDialogFrag
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_file:
-                mSpeechService.recognizeInputStream(getResources().openRawResource(R.raw.audio));
+                showMap();
+                //mSpeechService.recognizeInputStream(getResources().openRawResource(R.raw.audio));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -237,6 +237,16 @@ public class MainActivity extends AppCompatActivity implements MessageDialogFrag
                 REQUEST_RECORD_AUDIO_PERMISSION);
     }
 
+    private void showMap() {
+        Intent intent = new Intent(MainActivity.this, MyLocationActivity.class);
+        startActivity(intent);
+    }
+
+    private void turnoff() {
+        Intent intent = new Intent("com.example.litaos.forcelogout.FORCE_LOG_OUT");
+        sendBroadcast(intent);
+    }
+
     private final SpeechService.Listener mSpeechServiceListener =
             new SpeechService.Listener() {
                 @Override
@@ -252,6 +262,11 @@ public class MainActivity extends AppCompatActivity implements MessageDialogFrag
                                     mText.setText(null);
                                     mAdapter.addResult(text);
                                     mRecyclerView.smoothScrollToPosition(0);
+                                    if (text.contains("map") || text.contains("show")) {
+                                        showMap();
+                                    } else if (text.contains("turn") && text.contains("off")) {
+                                        turnoff();
+                                    }
                                 } else {
                                     mText.setText(text);
                                 }

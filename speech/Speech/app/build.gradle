@@ -18,17 +18,17 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.protobuf'
 
 ext {
-    supportLibraryVersion = '25.4.0'
+    supportLibraryVersion = '27.0.2'
     grpcVersion = '1.4.0'
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.3'
+    compileSdkVersion 28
+    buildToolsVersion '27.0.2'
 
     defaultConfig {
         applicationId "com.google.cloud.android.speech"
-        targetSdkVersion 25
+        targetSdkVersion 28
         versionCode 1
         versionName '1.0'
     }
@@ -103,6 +103,8 @@ dependencies {
     compile "com.android.support:design:$supportLibraryVersion"
     compile "com.android.support:cardview-v7:$supportLibraryVersion"
     compile "com.android.support:recyclerview-v7:$supportLibraryVersion"
+
+    compile "com.google.android.gms:play-services-maps:12.0.1"
 
     // gRPC
     compile "io.grpc:grpc-okhttp:$grpcVersion"

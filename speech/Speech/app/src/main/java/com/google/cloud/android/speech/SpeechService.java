@@ -122,6 +122,7 @@ public class SpeechService extends Service {
                     text = alternative.getTranscript();
                 }
             }
+            Log.i(TAG, "Text: " + text);
             if (text != null) {
                 for (Listener listener : mListeners) {
                     listener.onSpeechRecognized(text, isFinal);
